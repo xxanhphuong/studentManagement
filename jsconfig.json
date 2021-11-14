@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "allowSyntheticDefaultImports": false,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@iso/assets/*": ["./src/_assets/*"],
+      "@iso/components/*": ["./src/_components/*"],
+      "@iso/actions/*": ["./src/_actions/*"],
+      "@iso/helpers/*": ["./src/_helpers/*"],
+      "@iso/state/*": ["./src/_state/*"],
+      "@iso/pages/*": ["./src/_pages/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

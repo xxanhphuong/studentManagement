@@ -1,0 +1,21 @@
+.err-input {
+  color: red;
+  font-size: 12px;
+}
+.ant-form-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  .ant-form-item-label {
+    text-align: left;
+  }
+}
+
+.ant-btn {
+  height: 36px;
+}
+// ------------------ pages ------------
+@import "./pages/login";
+
+// ------------------ components ------------
+@import "./components/navbar";
