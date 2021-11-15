@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
+import { ThroughProvider } from "react-through";
 
 import "./index.css";
 import { App } from "./App";
@@ -12,7 +13,9 @@ fakeBackend();
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <App />
+      <ThroughProvider>
+        <App />
+      </ThroughProvider>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("app")

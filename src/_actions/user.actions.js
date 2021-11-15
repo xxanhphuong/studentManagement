@@ -2,6 +2,7 @@ import { useSetRecoilState } from "recoil";
 
 import { history, useFetchWrapper } from "@iso/helpers";
 import { authAtom, usersAtom } from "@iso/state";
+import { usersProfileAtom } from "@iso/state/users";
 
 export { useUserActions };
 
@@ -10,11 +11,14 @@ function useUserActions() {
   const fetchWrapper = useFetchWrapper();
   const setAuth = useSetRecoilState(authAtom);
   const setUsers = useSetRecoilState(usersAtom);
+  const setUsersProfile = useSetRecoilState(usersProfileAtom);
 
   return {
     login,
     logout,
     getAll,
+    userProfile,
+    updateProfile,
   };
 
   function login(username, password) {
@@ -24,6 +28,7 @@ function useUserActions() {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem("user", JSON.stringify(user));
         setAuth(user);
+        setUsers(user);
 
         // get return url from location state or default to home page
         const { from } = history.location.state || { from: { pathname: "/" } };
@@ -40,5 +45,16 @@ function useUserActions() {
 
   function getAll() {
     return fetchWrapper.get(baseUrl).then(setUsers);
+  }
+
+  async function userProfile(userID) {
+    return await fetchWrapper.get(`${baseUrl}/${userID}`).then((res) => {
+      res && setUsersProfile(res);
+      return res;
+    });
+  }
+
+  async function updateProfile(id, body) {
+    return await fetchWrapper.patch(`${baseUrl}/${id}`, body);
   }
 }

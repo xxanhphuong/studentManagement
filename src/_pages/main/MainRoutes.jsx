@@ -7,6 +7,46 @@ const routes = [
     component: lazy(() => import("@iso/pages/userProfile/UserProfile")),
     exact: true,
   },
+  {
+    path: "class",
+    component: lazy(() => import("@iso/pages/class/Class")),
+    exact: true,
+  },
+  {
+    path: "class/add",
+    component: lazy(() => import("@iso/pages/class/Add")),
+    exact: true,
+  },
+  {
+    path: "class/update/:id",
+    component: lazy(() => import("@iso/pages/class/Add")),
+    exact: true,
+  },
+  {
+    path: "class/detail/:id",
+    component: lazy(() => import("@iso/pages/class/Detail")),
+    exact: true,
+  },
+  {
+    path: "major",
+    component: lazy(() => import("@iso/pages/major/Major")),
+    exact: true,
+  },
+  {
+    path: "class/add",
+    component: lazy(() => import("@iso/pages/major/Add")),
+    exact: true,
+  },
+  {
+    path: "major/update/:id",
+    component: lazy(() => import("@iso/pages/major/Add")),
+    exact: true,
+  },
+  {
+    path: "major/detail/:id",
+    component: lazy(() => import("@iso/pages/major/Detail")),
+    exact: true,
+  },
   //#endregion
 ];
 

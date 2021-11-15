@@ -10,6 +10,7 @@ import {
 import logo from "@iso/assets/img/logo.png";
 import { Nav } from "@iso/components/Nav";
 import MainRoutes from "./MainRoutes";
+import { NavLink } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -41,10 +42,10 @@ export function Main() {
         </div>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            Option 1
+            <NavLink to="/class">Class</NavLink>
           </Menu.Item>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Option 2
+            <NavLink to="/major">Major</NavLink>
           </Menu.Item>
           <SubMenu key="sub1" icon={<UserOutlined />} title="User">
             <Menu.Item key="3">Tom</Menu.Item>
@@ -62,7 +63,7 @@ export function Main() {
       </Sider>
       <Layout className="site-layout">
         <Nav />
-        <Content style={{ margin: "0 16px" }}>
+        <Content style={{ margin: "16px" }}>
           <MainRoutes />
         </Content>
         <Footer style={{ textAlign: "center" }}>

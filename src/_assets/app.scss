@@ -11,6 +11,24 @@
   }
 }
 
+.ant-breadcrumb-link {
+  svg {
+    margin-top: -6px;
+  }
+}
+.ant-input {
+  padding: 6px 11px !important;
+}
+.ant-input-number-input {
+  height: 34px !important;
+}
+.ant-input-number {
+  width: 100% !important;
+}
+.ant-breadcrumb > span:last-child a {
+  color: #306ee5 !important;
+}
+
 .ant-btn {
   height: 36px;
 }

@@ -14,6 +14,7 @@ function useFetchWrapper() {
     post: request("POST"),
     put: request("PUT"),
     delete: request("DELETE"),
+    patch: request("PATCH"),
   };
 
   function request(method) {
@@ -38,13 +39,21 @@ function useFetchWrapper() {
     const isLoggedIn = !!token;
     const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL);
     if (isLoggedIn && isApiUrl) {
-      return { Authorization: `Bearer ${token}` };
+      return {
+        Authorization: `Bearer ${token}`,
+        "access-control-allow-headers": "*",
+        "access-control-expose-headers": "*",
+      };
     } else {
       return {};
     }
   }
 
   function handleResponse(response) {
+    let xPagination = response.headers.get("X-Pagination");
+    if (xPagination) {
+      var xPaginationParsed = JSON.parse(xPagination);
+    }
     return response.text().then((text) => {
       const data = text && JSON.parse(text);
       if (!response.ok) {
@@ -60,8 +69,11 @@ function useFetchWrapper() {
 
         return Promise.reject(error);
       }
-
-      return data;
+      if (xPaginationParsed) {
+        return { data: data, paging: xPaginationParsed };
+      } else {
+        return data;
+      }
     });
   }
 }

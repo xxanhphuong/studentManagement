@@ -9,7 +9,6 @@ import { authAtom } from "@iso/state";
 import { useUserActions } from "@iso/actions";
 
 import { Form, Input, Button, Checkbox } from "antd";
-import toast from "react-hot-toast";
 export { Login };
 
 function Login({ history }) {
@@ -43,7 +42,7 @@ function Login({ history }) {
   return (
     <div className="flex h-screen login-page">
       <div className="bg-primary bg-animation">
-        <div class="wrapper">
+        <div className="wrapper">
           <LoginIcon />
           <ul class="bg-bubbles">
             <li></li>

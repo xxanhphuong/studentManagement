@@ -4,8 +4,9 @@ import { useRecoilValue } from "recoil";
 import { authAtom } from "@iso/state";
 import { useUserActions } from "@iso/actions";
 
-import { Popover, Button, Avatar } from "antd";
+import { Popover, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 function Nav() {
   const auth = useRecoilValue(authAtom);
@@ -14,11 +15,20 @@ function Nav() {
   // only show nav when logged in
   if (!auth) return null;
   const content = (
-    <div>
-      <p onClick={userActions.logout} className="nav-item nav-link">
+    <ul className="mb-0">
+      <Link
+        to="/user-profile"
+        className="nav-item nav-link cursor-pointer mb-2 block"
+      >
+        Profile
+      </Link>
+      <li
+        onClick={userActions.logout}
+        className="nav-item nav-link cursor-pointer"
+      >
         Logout
-      </p>
-    </div>
+      </li>
+    </ul>
   );
 
   return (

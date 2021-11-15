@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="app-container bg-light">
       {/* <Router history={history}> */}
-      <Toaster containerStyle={toastContainerStyle} position="top-right" />
+      <Toaster containerStyle={toastContainerStyle} position="top-center" />
       <Router history={history}>
         <Switch>
           <Route path="/login" component={Login} />
