@@ -33,7 +33,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "class/add",
+    path: "major/add",
     component: lazy(() => import("@iso/pages/major/Add")),
     exact: true,
   },

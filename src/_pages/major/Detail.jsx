@@ -1,5 +1,5 @@
 import { Button, Input, InputNumber, Spin } from "antd";
-import { useClassActions } from "@iso/actions";
+import { useMajorActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
@@ -11,7 +11,7 @@ import { useEffect } from "react/cjs/react.development";
 import { useState } from "react";
 
 export default function Detail() {
-  const classActions = useClassActions();
+  const majorActions = useMajorActions();
   const [data, setData] = useState();
   let { id } = useParams();
 
@@ -22,7 +22,7 @@ export default function Detail() {
   // get Data
   const getData = async () => {
     try {
-      const res = await classActions.getClassesDetail(id);
+      const res = await majorActions.getMajorDetail(id);
       setData(res);
     } catch (error) {
       toast.error("Something went wrong!!!");
@@ -31,8 +31,8 @@ export default function Detail() {
 
   const breadItem = [
     {
-      name: "Classes",
-      path: "/class",
+      name: "Major",
+      path: "/major",
     },
     {
       name: "Detail",
@@ -45,18 +45,18 @@ export default function Detail() {
       <Breadcrumbs items={breadItem} />
       <div className="shadow-md bg-white rounded-lg p-4">
         {data ? (
-          <div className="w-3/12">
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <label>Name:</label>
+          <div className="w-5/12">
+            <div className="flex mb-3">
+              <label className="w-3/12">Name:</label>
               <span>{data?.name}</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <label>Quantity:</label>
-              <span>{data?.quantity}</span>
+            <div className="flex mb-3">
+              <label className="w-3/12">Start Date:</label>
+              <span>{data?.startDate}</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <label>Major:</label>
-              <span>{data?.major?.name}</span>
+            <div className="flex mb-3">
+              <label className="w-3/12">Finish Date:</label>
+              <span>{data?.finishDate}</span>
             </div>
           </div>
         ) : (

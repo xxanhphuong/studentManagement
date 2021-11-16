@@ -57,23 +57,13 @@ export default function Major({ history }) {
       key: "name",
     },
     {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
-    {
-      title: "Major",
-      dataIndex: ["major", "name"],
-      key: "major",
-    },
-    {
       title: "Start Date",
-      dataIndex: ["major", "startDate"],
+      dataIndex: "startDate",
       key: "startDate",
     },
     {
       title: "Finish Date",
-      dataIndex: ["major", "finishDate"],
+      dataIndex: "finishDate",
       key: "finishDate",
     },
     {
@@ -82,10 +72,10 @@ export default function Major({ history }) {
       render: (record) => (
         <div className="flex gap-3">
           <Button type="primary">
-            <Link to={`/class/detail/${record.id}`}>View</Link>
+            <Link to={`/major/detail/${record.id}`}>View</Link>
           </Button>
           <Button type="primary">
-            <Link to={`/class/update/${record.id}`}>Update</Link>
+            <Link to={`/major/update/${record.id}`}>Update</Link>
           </Button>
           <Button
             type="primary"
@@ -151,7 +141,7 @@ export default function Major({ history }) {
             </div>
           </form>
           <Button type="primary">
-            <Link to="/class/add">Add</Link>
+            <Link to="/major/add">Add</Link>
           </Button>
         </div>
         <Table

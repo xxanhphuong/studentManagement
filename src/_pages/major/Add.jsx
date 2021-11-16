@@ -1,4 +1,4 @@
-import { Button, Input, InputNumber } from "antd";
+import { Button, DatePicker, Input, InputNumber } from "antd";
 import { useMajorActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Form } from "antd";
@@ -8,14 +8,15 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
-import { ControlFilled } from "@ant-design/icons";
+import moment from "moment";
 
 export default function Add() {
   const majorActions = useMajorActions();
   let { id } = useParams();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Username is required"),
-    quantity: Yup.string().required("Quantity is required"),
+    startDate: Yup.string().required("startDate is required"),
+    finishDate: Yup.string().required("finishDate is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { handleSubmit, formState, control, setValue, watch } =
@@ -29,9 +30,13 @@ export default function Add() {
   // get Data
   const getData = async () => {
     try {
-      const { name, quantity } = await majorActions.getMajorDetail(id);
+      const { name, startDate, finishDate } = await majorActions.getMajorDetail(
+        id
+      );
       setValue("name", name);
-      setValue("quantity", parseInt(quantity));
+      setValue("startDate", moment(startDate).toDate());
+      setValue("finishDate", moment(finishDate).toDate());
+      // setValue("finishDate", new Date(finishDate));
     } catch (error) {
       toast.error("Something when wrong!!!");
     }
@@ -39,17 +44,17 @@ export default function Add() {
 
   // submit form
   const onSubmit = async (e) => {
-    e.majorId = 2;
-    let res;
+    e.startDate = new Date(e.startDate).toISOString();
+    e.finishDate = new Date(e.finishDate).toISOString();
     try {
       if (id) {
         const body = {
           id: id,
           ...e,
         };
-        res = await majorActions.updateMajor(id, body);
+        await majorActions.updateMajor(id, body);
       } else {
-        res = await majorActions.postMajor(e);
+        await majorActions.postMajor(e);
       }
       toast.success(id ? "Update class success!!!" : "Create class success!!!");
     } catch (error) {
@@ -60,10 +65,10 @@ export default function Add() {
   const breadItem = [
     {
       name: "Major",
-      path: "/class",
+      path: "/major",
     },
     {
-      name: id ? "Update class" : "Add class",
+      name: id ? "Update major" : "Add major",
       path: "",
     },
   ];
@@ -79,7 +84,7 @@ export default function Add() {
             className="w-4/12"
           >
             <div className="grid gap-3 grid-cols-1">
-              <Form.Item name="name" label="Name class" className="mb-0">
+              <Form.Item name="name" label="Name major" className="mb-0">
                 <Controller
                   name="name"
                   control={control}
@@ -95,22 +100,38 @@ export default function Add() {
                 />
                 <div className="err-input">{errors.name?.message}</div>
               </Form.Item>
-              <Form.Item name="name" label="Quantity" className="mb-0">
-                <Controller
-                  name="quantity"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    <InputNumber
-                      className={`form-control ${
-                        errors.quantity ? "is-invalid" : ""
-                      }`}
-                      min={1}
-                      value={value}
-                      onChange={onChange}
-                    />
-                  )}
-                />
-                <div className="err-input">{errors.quantity?.message}</div>
+              <Form.Item name="startDate" label="Start Date" className="mb-0">
+                {watch("startDate") && (
+                  <Controller
+                    name="startDate"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value, ref } }) => {
+                      return (
+                        <DatePicker
+                          onChange={onChange}
+                          defaultValue={moment(value)}
+                        />
+                      );
+                    }}
+                  />
+                )}
+
+                <div className="err-input">{errors.startDate?.message}</div>
+              </Form.Item>
+              <Form.Item name="finishDate" label="Finish Date" className="mb-0">
+                {watch("finishDate") && (
+                  <Controller
+                    name="finishDate"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <DatePicker
+                        onChange={onChange}
+                        defaultValue={moment(value)}
+                      />
+                    )}
+                  />
+                )}
+                <div className="err-input">{errors.finishDate?.message}</div>
               </Form.Item>
               <Button
                 type="primary"
