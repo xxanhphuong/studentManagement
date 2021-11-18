@@ -47,6 +47,66 @@ const routes = [
     component: lazy(() => import("@iso/pages/major/Detail")),
     exact: true,
   },
+  {
+    path: "student",
+    component: lazy(() => import("@iso/pages/student/Student")),
+    exact: true,
+  },
+  {
+    path: "student/update/:id",
+    component: lazy(() => import("@iso/pages/student/Add")),
+    exact: true,
+  },
+  {
+    path: "student/detail/:id",
+    component: lazy(() => import("@iso/pages/student/Detail")),
+    exact: true,
+  },
+  {
+    path: "score",
+    component: lazy(() => import("@iso/pages/score/Score")),
+    exact: true,
+  },
+  {
+    path: "score/update/:id",
+    component: lazy(() => import("@iso/pages/score/Add")),
+    exact: true,
+  },
+  {
+    path: "score/detail/:id",
+    component: lazy(() => import("@iso/pages/score/Detail")),
+    exact: true,
+  },
+  {
+    path: "subject",
+    component: lazy(() => import("@iso/pages/subject/Subject")),
+    exact: true,
+  },
+  {
+    path: "subject/update/:id",
+    component: lazy(() => import("@iso/pages/subject/Add")),
+    exact: true,
+  },
+  {
+    path: "subject/detail/:id",
+    component: lazy(() => import("@iso/pages/subject/Detail")),
+    exact: true,
+  },
+  {
+    path: "teacher",
+    component: lazy(() => import("@iso/pages/teacher/Teacher")),
+    exact: true,
+  },
+  {
+    path: "teacher/update/:id",
+    component: lazy(() => import("@iso/pages/teacher/Add")),
+    exact: true,
+  },
+  {
+    path: "teacher/detail/:id",
+    component: lazy(() => import("@iso/pages/teacher/Detail")),
+    exact: true,
+  },
   //#endregion
 ];
 

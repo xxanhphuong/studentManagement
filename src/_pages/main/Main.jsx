@@ -44,21 +44,23 @@ export function Main() {
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <NavLink to="/class">Class</NavLink>
           </Menu.Item>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
+          <Menu.Item key="2" icon={<UserOutlined />}>
+            <NavLink to="/subject">Subject</NavLink>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<DesktopOutlined />}>
+            <NavLink to="/score">Score</NavLink>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<DesktopOutlined />}>
             <NavLink to="/major">Major</NavLink>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-            <Menu.Item key="3">Tom</Menu.Item>
-            <Menu.Item key="4">Bill</Menu.Item>
-            <Menu.Item key="5">Alex</Menu.Item>
+          <SubMenu key="sub2" icon={<TeamOutlined />} title="User">
+            <Menu.Item key="5">
+              <NavLink to="/teacher">Teacher</NavLink>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <NavLink to="/student">Student</NavLink>
+            </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="9" icon={<FileOutlined />}>
-            Files
-          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
