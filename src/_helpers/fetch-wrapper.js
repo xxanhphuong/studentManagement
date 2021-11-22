@@ -4,6 +4,7 @@ import { history } from "@iso/helpers";
 import { authAtom } from "@iso/state";
 
 import toast from "react-hot-toast";
+import { get } from "lodash";
 export { useFetchWrapper };
 
 function useFetchWrapper() {
@@ -62,6 +63,10 @@ function useFetchWrapper() {
           localStorage.removeItem("user");
           setAuth(null);
           history.push("/login");
+        } else if (response.status === 404) {
+          if (data[""] && data[""].errors[0].errorMessage) {
+            toast.error(data[""].errors[0].errorMessage);
+          }
         } else {
           toast.error("Sorry, our server is on break !!!");
         }

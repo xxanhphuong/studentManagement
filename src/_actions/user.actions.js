@@ -2,7 +2,7 @@ import { useSetRecoilState } from "recoil";
 
 import { history, useFetchWrapper } from "@iso/helpers";
 import { authAtom, usersAtom } from "@iso/state";
-import { usersProfileAtom } from "@iso/state/users";
+import { usersProfileAtom, usersModalVisibleAtom } from "@iso/state/users";
 
 export { useUserActions };
 
@@ -12,13 +12,18 @@ function useUserActions() {
   const setAuth = useSetRecoilState(authAtom);
   const setUsers = useSetRecoilState(usersAtom);
   const setUsersProfile = useSetRecoilState(usersProfileAtom);
-
+  const setUsersModal = useSetRecoilState(usersModalVisibleAtom);
   return {
     login,
     logout,
     getAll,
     userProfile,
     updateProfile,
+    getListUser,
+    deleteUser,
+    showUserModal,
+    hideUserModal,
+    addUser,
   };
 
   function login(username, password) {
@@ -54,7 +59,37 @@ function useUserActions() {
     });
   }
 
+  async function addUser(body) {
+    return await fetchWrapper.post(`${baseUrl}`, body);
+  }
+
   async function updateProfile(id, body) {
     return await fetchWrapper.patch(`${baseUrl}/${id}`, body);
+  }
+
+  async function getListUser(offset, limit, params = false, search) {
+    console.log(typeof search != null);
+    return await fetchWrapper.get(
+      baseUrl +
+        "?PageNumber=" +
+        offset +
+        "&PageSize=" +
+        limit +
+        (params && params.order
+          ? "&order=" + JSON.stringify(params.order)
+          : "") +
+        (search && Object.keys(search).length !== 0 ? "&kw=" + search : "")
+    );
+  }
+  async function deleteUser(id) {
+    return await fetchWrapper.delete(`${baseUrl}/${id}`);
+  }
+
+  function showUserModal() {
+    setUsersModal(true);
+  }
+
+  function hideUserModal() {
+    setUsersModal(false);
   }
 }

@@ -23,7 +23,7 @@ function useStudentActions() {
         (params && params.order
           ? "&order=" + JSON.stringify(params.order)
           : "") +
-        (search ? "&kw=" + search : "")
+        (search && Object.keys(search).length !== 0 ? "&kw=" + search : "")
     );
   }
 

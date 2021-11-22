@@ -4,8 +4,8 @@ import { useRecoilValue } from "recoil";
 import { authAtom } from "@iso/state";
 import { useUserActions } from "@iso/actions";
 
-import { Popover, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Popover, Avatar, Button } from "antd";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 function Nav() {
@@ -33,6 +33,13 @@ function Nav() {
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <Button
+        type="dashed"
+        onClick={userActions.showUserModal}
+        icon={<PlusOutlined />}
+      >
+        New account
+      </Button>
       <div className="user">
         <Popover placement="bottomRight" content={content} trigger="click">
           <Avatar size="large" icon={<UserOutlined />} />

@@ -26,12 +26,13 @@ export default function UserProfile({ history }) {
   const getData = async (user) => {
     const res = await userActions.userProfile(user?.id);
     if (res) {
+      const p = parseISOString(res.dateOfBirth);
       setValue("username", res.username);
       setValue("fullName", res.fullName);
       setValue("address", res.address);
       setValue("role", res.role);
       setValue("gender", res.gender);
-      setValue("dateOfBirth", res.dateOfBirth);
+      setValue("dateOfBirth", p);
     }
   };
 
@@ -41,13 +42,15 @@ export default function UserProfile({ history }) {
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
 
+  function parseISOString(s) {
+    return new Date(s.split("T")[0]);
+  }
   // get functions to build form with useForm() hook
   const { handleSubmit, formState, control, setValue, watch } =
     useForm(formOptions);
   const { errors, isSubmitting } = formState;
 
   async function onSubmit(e) {
-    console.log(e);
     try {
       const user = init_object("user");
       e.id = user?.id;
@@ -166,24 +169,23 @@ export default function UserProfile({ history }) {
                       <div className="err-input">{errors.address?.message}</div>
                     </Form.Item>
                     <Form.Item label="Date of birth">
-                      <Controller
-                        control={control}
-                        name="dateOfBirth"
-                        render={() => {
-                          return (
-                            <DatePicker
-                              defaultValue={moment(
-                                watch("dateOfBirth"),
-                                dateFormat
-                              )}
-                              onChange={(date, dateString) =>
-                                setValue("dateOfBirth", dateString)
-                              }
-                              format={dateFormat}
-                            />
-                          );
-                        }}
-                      />
+                      {watch("dateOfBirth") && (
+                        <Controller
+                          control={control}
+                          name="dateOfBirth"
+                          render={() => {
+                            return (
+                              <DatePicker
+                                defaultValue={moment(watch("dateOfBirth"))}
+                                onChange={(date, dateString) =>
+                                  setValue("dateOfBirth", dateString)
+                                }
+                                format={dateFormat}
+                              />
+                            );
+                          }}
+                        />
+                      )}
                     </Form.Item>
                   </div>
                   <Form.Item label="Role">

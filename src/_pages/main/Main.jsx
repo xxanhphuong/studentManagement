@@ -11,6 +11,7 @@ import logo from "@iso/assets/img/logo.png";
 import { Nav } from "@iso/components/Nav";
 import MainRoutes from "./MainRoutes";
 import { NavLink } from "react-router-dom";
+import Add from "../user/Add";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -60,6 +61,9 @@ export function Main() {
             <Menu.Item key="6">
               <NavLink to="/student">Student</NavLink>
             </Menu.Item>
+            <Menu.Item key="7">
+              <NavLink to="/user">User</NavLink>
+            </Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
@@ -67,6 +71,7 @@ export function Main() {
         <Nav />
         <Content style={{ margin: "16px" }}>
           <MainRoutes />
+          <Add />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©2018 Created by me

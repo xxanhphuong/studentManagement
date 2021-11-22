@@ -11,6 +11,15 @@
   }
 }
 
+.ant-btn-dashed {
+  color: #306ee5;
+  border-style: dashed;
+  border-color: #306ee5;
+  svg {
+    margin-top: -6px;
+  }
+}
+
 .ant-breadcrumb-link {
   svg {
     margin-top: -6px;

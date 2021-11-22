@@ -8,6 +8,21 @@ const routes = [
     exact: true,
   },
   {
+    path: "user",
+    component: lazy(() => import("@iso/pages/user/User")),
+    exact: true,
+  },
+  {
+    path: "user/detail/:id",
+    component: lazy(() => import("@iso/pages/user/Detail")),
+    exact: true,
+  },
+  {
+    path: "user/update/:id",
+    component: lazy(() => import("@iso/pages/user/Update")),
+    exact: true,
+  },
+  {
     path: "class",
     component: lazy(() => import("@iso/pages/class/Class")),
     exact: true,

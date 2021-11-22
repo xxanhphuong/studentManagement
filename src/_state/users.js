@@ -10,5 +10,11 @@ const usersProfileAtom = atom({
   default: null,
 });
 
+const usersModalVisibleAtom = atom({
+  key: "usersModalVisible",
+  default: false,
+});
+
 export { usersAtom };
 export { usersProfileAtom };
+export { usersModalVisibleAtom };
