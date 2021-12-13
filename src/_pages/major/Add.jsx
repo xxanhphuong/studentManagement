@@ -27,15 +27,21 @@ export default function Add() {
     id && getData();
   }, []);
 
+  function parseISOString(s) {
+    return new Date(s.split("T")[0]);
+  }
+
   // get Data
   const getData = async () => {
     try {
       const { name, startDate, finishDate } = await majorActions.getMajorDetail(
         id
       );
+      const s = parseISOString(startDate);
+      const f = parseISOString(finishDate);
       setValue("name", name);
-      setValue("startDate", moment(startDate).toDate());
-      setValue("finishDate", moment(finishDate).toDate());
+      setValue("startDate", s);
+      setValue("finishDate", f);
       // setValue("finishDate", new Date(finishDate));
     } catch (error) {
       toast.error("Something when wrong!!!");
@@ -101,17 +107,41 @@ export default function Add() {
                 <div className="err-input">{errors.name?.message}</div>
               </Form.Item>
               <Form.Item name="startDate" label="Start Date" className="mb-0">
-                {watch("startDate") && (
+                {watch("startDate") ? (
+                  <>
+                    {id ? (
+                      <Controller
+                        name="startDate"
+                        control={control}
+                        render={() => {
+                          return (
+                            <DatePicker
+                              defaultValue={moment(watch("startDate"))}
+                              onChange={(date, dateString) =>
+                                setValue("startDate", dateString)
+                              }
+                            />
+                          );
+                        }}
+                      />
+                    ) : (
+                      <Controller
+                        name="startDate"
+                        control={control}
+                        render={({
+                          field: { onChange, onBlur, value, ref },
+                        }) => {
+                          return <DatePicker onChange={onChange} />;
+                        }}
+                      />
+                    )}
+                  </>
+                ) : (
                   <Controller
                     name="startDate"
                     control={control}
                     render={({ field: { onChange, onBlur, value, ref } }) => {
-                      return (
-                        <DatePicker
-                          onChange={onChange}
-                          defaultValue={moment(value)}
-                        />
-                      );
+                      return <DatePicker onChange={onChange} />;
                     }}
                   />
                 )}
@@ -119,16 +149,42 @@ export default function Add() {
                 <div className="err-input">{errors.startDate?.message}</div>
               </Form.Item>
               <Form.Item name="finishDate" label="Finish Date" className="mb-0">
-                {watch("finishDate") && (
+                {watch("finishDate") ? (
+                  <>
+                    {id ? (
+                      <Controller
+                        name="finishDate"
+                        control={control}
+                        render={() => {
+                          return (
+                            <DatePicker
+                              defaultValue={moment(watch("finishDate"))}
+                              onChange={(date, dateString) =>
+                                setValue("finishDate", dateString)
+                              }
+                            />
+                          );
+                        }}
+                      />
+                    ) : (
+                      <Controller
+                        name="finishDate"
+                        control={control}
+                        render={({
+                          field: { onChange, onBlur, value, ref },
+                        }) => {
+                          return <DatePicker onChange={onChange} />;
+                        }}
+                      />
+                    )}
+                  </>
+                ) : (
                   <Controller
                     name="finishDate"
                     control={control}
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <DatePicker
-                        onChange={onChange}
-                        defaultValue={moment(value)}
-                      />
-                    )}
+                    render={({ field: { onChange, onBlur, value, ref } }) => {
+                      return <DatePicker onChange={onChange} />;
+                    }}
                   />
                 )}
                 <div className="err-input">{errors.finishDate?.message}</div>

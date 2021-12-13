@@ -11,6 +11,7 @@ function useSubjectActions() {
     deleteSubject,
     getSubjectDetail,
     updateSubject,
+    postSubject,
   };
 
   async function getSubject(offset, limit, params = false, search) {
@@ -25,6 +26,10 @@ function useSubjectActions() {
           : "") +
         (search && Object.keys(search).length !== 0 ? "&kw=" + search : "")
     );
+  }
+
+  async function postSubject(body) {
+    return await fetchWrapper.post(baseUrl, body);
   }
 
   async function deleteSubject(id) {

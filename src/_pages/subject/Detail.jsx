@@ -1,5 +1,5 @@
 import { Button, Input, InputNumber, Spin } from "antd";
-import { useClassActions } from "@iso/actions";
+import { useSubjectActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
@@ -11,7 +11,7 @@ import { useEffect } from "react/cjs/react.development";
 import { useState } from "react";
 
 export default function Detail() {
-  const classActions = useClassActions();
+  const subjectActions = useSubjectActions();
   const [data, setData] = useState();
   let { id } = useParams();
 
@@ -22,7 +22,7 @@ export default function Detail() {
   // get Data
   const getData = async () => {
     try {
-      const res = await classActions.getClassesDetail(id);
+      const res = await subjectActions.getSubjectDetail(id);
       setData(res);
     } catch (error) {
       toast.error("Something went wrong!!!");
@@ -31,7 +31,7 @@ export default function Detail() {
 
   const breadItem = [
     {
-      name: "Classes",
+      name: "Subject",
       path: "/class",
     },
     {
@@ -51,12 +51,20 @@ export default function Detail() {
               <span>{data?.name}</span>
             </div>
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <label>Quantity:</label>
-              <span>{data?.quantity}</span>
+              <label>Mid Score Ratio:</label>
+              <span>{data?.midScoreRatio}</span>
             </div>
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <label>Major:</label>
-              <span>{data?.major?.name}</span>
+              <label>finalScoreRatio:</label>
+              <span>{data?.finalScoreRatio}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <label>Credit:</label>
+              <span>{data?.credit}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <label>teacher Id:</label>
+              <span>{data?.teacherId}</span>
             </div>
           </div>
         ) : (

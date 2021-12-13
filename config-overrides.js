@@ -28,7 +28,7 @@ module.exports = function (config, env) {
       }),
       addLessLoader({
         javascriptEnabled: true,
-        modifyVars: { "@primary-color": "#3444d2" },
+        modifyVars: { "@primary-color": "#3444d2", "@button-color": "#757575" },
       }),
       addPostcssPlugins([require("tailwindcss")]),
       addWebpackAlias({

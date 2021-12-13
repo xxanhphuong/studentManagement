@@ -162,7 +162,6 @@ export default function Update() {
                 <div className="err-input">{errors.address?.message}</div>
               </Form.Item>
               <Form.Item label="Date of birth">
-                {console.log(watch("dateOfBirth"))}
                 {watch("dateOfBirth") && (
                   <Controller
                     control={control}

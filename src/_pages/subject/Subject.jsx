@@ -62,24 +62,25 @@ export default function Subject() {
       key: "name",
     },
     {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
+      title: "Mid Score Ratio",
+      dataIndex: "midScoreRatio",
+      key: "midScoreRatio",
+      render: (r) => {
+        return `${r}%`;
+      },
     },
     {
-      title: "Major",
-      dataIndex: ["major", "name"],
-      key: "major",
+      title: "finalScoreRatio",
+      dataIndex: "finalScoreRatio",
+      key: "finalScoreRatio",
+      render: (r) => {
+        return `${r}%`;
+      },
     },
     {
-      title: "Start Date",
-      dataIndex: ["major", "startDate"],
-      key: "startDate",
-    },
-    {
-      title: "Finish Date",
-      dataIndex: ["major", "finishDate"],
-      key: "finishDate",
+      title: "Credit",
+      dataIndex: "credit",
+      key: "credit",
     },
     {
       align: "center",
@@ -87,10 +88,10 @@ export default function Subject() {
       render: (record) => (
         <div className="flex gap-3">
           <Button type="primary">
-            <Link to={`/class/detail/${record.id}`}>View</Link>
+            <Link to={`/subject/detail/${record.id}`}>View</Link>
           </Button>
           <Button type="primary">
-            <Link to={`/class/update/${record.id}`}>Update</Link>
+            <Link to={`/subject/update/${record.id}`}>Update</Link>
           </Button>
           <Button
             type="primary"
@@ -156,7 +157,7 @@ export default function Subject() {
             </div>
           </form>
           <Button type="primary">
-            <Link to="/class/add">Add</Link>
+            <Link to="/subject/add">Add</Link>
           </Button>
         </div>
         <Table

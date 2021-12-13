@@ -83,11 +83,6 @@ const routes = [
     exact: true,
   },
   {
-    path: "score/update/:id",
-    component: lazy(() => import("@iso/pages/score/Add")),
-    exact: true,
-  },
-  {
     path: "score/detail/:id",
     component: lazy(() => import("@iso/pages/score/Detail")),
     exact: true,
@@ -95,6 +90,11 @@ const routes = [
   {
     path: "subject",
     component: lazy(() => import("@iso/pages/subject/Subject")),
+    exact: true,
+  },
+  {
+    path: "subject/add",
+    component: lazy(() => import("@iso/pages/subject/Add")),
     exact: true,
   },
   {
