@@ -12,6 +12,8 @@ import { UserOutlined } from "@ant-design/icons";
 
 import toast from "react-hot-toast";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
 
 export default function UserProfile({ history }) {
   const dateFormat = "YYYY/MM/DD";
@@ -188,26 +190,28 @@ export default function UserProfile({ history }) {
                       )}
                     </Form.Item>
                   </div>
-                  <Form.Item label="Role">
-                    <Controller
-                      control={control}
-                      name="role"
-                      render={() => (
-                        <Radio.Group
-                          value={watch("role")}
-                          onChange={(e) => {
-                            setValue("role", e.target.value);
+                  {getRole() !== userRole.ADMIN && (
+                    <Form.Item label="Role">
+                      <Controller
+                        control={control}
+                        name="role"
+                        render={() => (
+                          <Radio.Group
+                            value={watch("role")}
+                            onChange={(e) => {
+                              setValue("role", e.target.value);
 
-                            console.log(e.target.value);
-                          }}
-                        >
-                          <Radio value={"admin"}>Admin</Radio>
-                          <Radio value={"teacher"}>Teacher</Radio>
-                          <Radio value={"student"}>Student</Radio>
-                        </Radio.Group>
-                      )}
-                    />
-                  </Form.Item>
+                              console.log(e.target.value);
+                            }}
+                          >
+                            <Radio value={"admin"}>Admin</Radio>
+                            <Radio value={"teacher"}>Teacher</Radio>
+                            <Radio value={"student"}>Student</Radio>
+                          </Radio.Group>
+                        )}
+                      />
+                    </Form.Item>
+                  )}
 
                   <Button
                     type="primary"

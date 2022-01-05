@@ -11,6 +11,7 @@ function useScoreActions() {
     deleteScore,
     getScoreDetail,
     updateScore,
+    postScore,
   };
 
   async function getScore(offset, limit, params = false, search) {
@@ -27,12 +28,16 @@ function useScoreActions() {
     );
   }
 
-  async function deleteScore(id) {
-    return await fetchWrapper.delete(`${baseUrl}/${id}`);
+  async function deleteScore(id, subjectId) {
+    return await fetchWrapper.delete(`${baseUrl}/${id}/${subjectId}`);
   }
 
   async function getScoreDetail(id) {
     return await fetchWrapper.get(`${baseUrl}/${id}`);
+  }
+
+  async function postScore(body) {
+    return await fetchWrapper.post(`${baseUrl}`, body);
   }
 
   async function updateScore(id, body) {

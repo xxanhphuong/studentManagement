@@ -7,6 +7,8 @@ import { useUserActions } from "@iso/actions";
 import { Popover, Avatar, Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { getRole } from "../_helpers";
+import { userRole } from "@iso/helpers/contant";
 
 function Nav() {
   const auth = useRecoilValue(authAtom);
@@ -33,13 +35,16 @@ function Nav() {
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <Button
-        type="dashed"
-        onClick={userActions.showUserModal}
-        icon={<PlusOutlined />}
-      >
-        New account
-      </Button>
+      {getRole() == userRole.ADMIN && (
+        <Button
+          type="dashed"
+          onClick={userActions.showUserModal}
+          icon={<PlusOutlined />}
+        >
+          New account
+        </Button>
+      )}
+
       <div className="user">
         <Popover placement="bottomRight" content={content} trigger="click">
           <Avatar size="large" icon={<UserOutlined />} />

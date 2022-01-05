@@ -9,3 +9,12 @@ export function init_object(key) {
   }
   return {};
 }
+
+export function getRole() {
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  if (userInfo) {
+    return userInfo?.role;
+  } else {
+    return null;
+  }
+}

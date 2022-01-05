@@ -7,6 +7,8 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
 
 export default function Class({ history }) {
   const classActions = useClassActions();
@@ -84,15 +86,19 @@ export default function Class({ history }) {
           <Button type="primary">
             <Link to={`/class/detail/${record.id}`}>View</Link>
           </Button>
-          <Button type="primary">
-            <Link to={`/class/update/${record.id}`}>Update</Link>
-          </Button>
-          <Button
-            type="primary"
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => handleDelete(record.id)}
-          ></Button>
+          {getRole() == userRole.ADMIN && (
+            <>
+              <Button type="primary">
+                <Link to={`/class/update/${record.id}`}>Update</Link>
+              </Button>
+              <Button
+                type="primary"
+                icon={<DeleteOutlined />}
+                danger
+                onClick={() => handleDelete(record.id)}
+              ></Button>
+            </>
+          )}
         </div>
       ),
     },
@@ -150,9 +156,11 @@ export default function Class({ history }) {
               </Button>
             </div>
           </form>
-          <Button type="primary">
-            <Link to="/class/add">Add</Link>
-          </Button>
+          {getRole() == userRole.ADMIN && (
+            <Button type="primary">
+              <Link to="/class/add">Add</Link>
+            </Button>
+          )}
         </div>
         <Table
           columns={columns}

@@ -12,6 +12,8 @@ import { Nav } from "@iso/components/Nav";
 import MainRoutes from "./MainRoutes";
 import { NavLink } from "react-router-dom";
 import Add from "../user/Add";
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -54,17 +56,19 @@ export function Main() {
           <Menu.Item key="4" icon={<DesktopOutlined />}>
             <NavLink to="/major">Major</NavLink>
           </Menu.Item>
-          <SubMenu key="sub2" icon={<TeamOutlined />} title="User">
-            <Menu.Item key="5">
-              <NavLink to="/teacher">Teacher</NavLink>
-            </Menu.Item>
-            <Menu.Item key="6">
-              <NavLink to="/student">Student</NavLink>
-            </Menu.Item>
-            <Menu.Item key="7">
-              <NavLink to="/user">User</NavLink>
-            </Menu.Item>
-          </SubMenu>
+          {getRole() == userRole?.ADMIN && (
+            <SubMenu key="sub2" icon={<TeamOutlined />} title="User">
+              <Menu.Item key="5">
+                <NavLink to="/teacher">Teacher</NavLink>
+              </Menu.Item>
+              <Menu.Item key="6">
+                <NavLink to="/student">Student</NavLink>
+              </Menu.Item>
+              <Menu.Item key="7">
+                <NavLink to="/user">User</NavLink>
+              </Menu.Item>
+            </SubMenu>
+          )}
         </Menu>
       </Sider>
       <Layout className="site-layout">

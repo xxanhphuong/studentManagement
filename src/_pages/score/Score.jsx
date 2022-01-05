@@ -7,6 +7,8 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
 
 export default function Score({ history }) {
   const scoreActions = useScoreActions();
@@ -52,10 +54,21 @@ export default function Score({ history }) {
 
   const columns = [
     {
-      title: "Name",
+      title: "ID student",
+      dataIndex: ["student", "studentId"],
+      key: "id",
+    },
+    {
+      title: "Name student",
+      dataIndex: ["student", "user", "fullName"],
+      key: "fullName",
+    },
+    {
+      title: "Name subject",
       dataIndex: ["subject", "name"],
       key: "name",
     },
+
     {
       title: "Mid Score Ratio",
       dataIndex: ["subject", "midScoreRatio"],
@@ -65,11 +78,27 @@ export default function Score({ history }) {
       },
     },
     {
-      title: "finalScoreRatio",
+      title: "final Score Ratio",
       dataIndex: ["subject", "finalScoreRatio"],
       key: "finalScoreRatio",
       render: (r) => {
         return `${r}%`;
+      },
+    },
+    {
+      title: "Mid Score",
+      dataIndex: "midScore",
+      key: "midScore",
+      render: (r) => {
+        return `${r}`;
+      },
+    },
+    {
+      title: "final Score",
+      dataIndex: "finalScore",
+      key: "finalScore",
+      render: (r) => {
+        return `${r}`;
       },
     },
     {
@@ -85,15 +114,23 @@ export default function Score({ history }) {
           <Button type="primary">
             <Link to={`/student/detail/${record.studentId}`}>View</Link>
           </Button>
-          <Button type="primary">
-            <Link to={`/student/update/${record.studentId}`}>Update</Link>
-          </Button>
-          <Button
-            type="primary"
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => handleDelete(record.studentId)}
-          ></Button>
+          {getRole() == userRole.ADMIN || getRole() == userRole.TEACHER ? (
+            <>
+              <Button type="primary">
+                <Link to={`/student/update/${record.studentId}`}>Update</Link>
+              </Button>
+              <Button
+                type="primary"
+                icon={<DeleteOutlined />}
+                danger
+                onClick={() =>
+                  handleDelete(record.student.studentId, record.subject.id)
+                }
+              ></Button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       ),
     },
@@ -106,9 +143,9 @@ export default function Score({ history }) {
     },
   ];
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, subjectId) => {
     try {
-      await scoreActions.deleteScore(id);
+      await scoreActions.deleteScore(id, subjectId);
       toast.success("Delete success");
       handleTableChange(data.paging, watch("search"), {});
     } catch (error) {}
@@ -151,6 +188,13 @@ export default function Score({ history }) {
               </Button>
             </div>
           </form>
+          {getRole() == userRole.ADMIN || getRole() == userRole.TEACHER ? (
+            <Button type="primary">
+              <Link to="/score/add">Add</Link>
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <Table
           columns={columns}

@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Input } from "antd";
-import { useMajorActions } from "@iso/actions";
-import Breadcrumbs from "@iso/components/Breadcrumbs";
-import { Link } from "react-router-dom";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Table, Button, Input, Tag } from "antd";
+import { useSubjectActions } from "@iso/actions";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
-import toast from "react-hot-toast";
-import { getRole } from "@iso/helpers/";
-import { userRole } from "@iso/helpers/contant";
-
-export default function Major({ history }) {
-  const majorActions = useMajorActions();
+import { useParams } from "react-router-dom";
+import moment from "moment";
+export default function Subject(props) {
+  let { id } = useParams();
+  const subjectActions = useSubjectActions();
   const { handleSubmit, control, reset, watch } = useForm();
   const [data, setData] = useState({
     dataSource: [],
@@ -37,7 +33,12 @@ export default function Major({ history }) {
     );
   };
   const getData = async (offset, limit, params = false, filters) => {
-    const resp = await majorActions.getMajor(offset, limit, params, filters);
+    const resp = await subjectActions.getSubject(
+      offset,
+      limit,
+      params,
+      filters
+    );
     if (resp) {
       // get result
       setData({
@@ -59,55 +60,22 @@ export default function Major({ history }) {
       key: "name",
     },
     {
-      title: "Start Date",
-      dataIndex: "startDate",
-      key: "startDate",
+      title: "Mid Score Ratio",
+      dataIndex: "midScoreRatio",
+      key: "midScoreRatio",
+      render: (r) => {
+        return `${r}%`;
+      },
     },
     {
-      title: "Finish Date",
-      dataIndex: "finishDate",
-      key: "finishDate",
-    },
-    {
-      align: "center",
-      fixed: "right",
-      render: (record) => (
-        <div className="flex gap-3">
-          <Button type="primary">
-            <Link to={`/major/detail/${record.id}`}>View</Link>
-          </Button>
-          {getRole() == userRole.ADMIN && (
-            <>
-              <Button type="primary">
-                <Link to={`/major/update/${record.id}`}>Update</Link>
-              </Button>
-              <Button
-                type="primary"
-                icon={<DeleteOutlined />}
-                danger
-                onClick={() => handleDelete(record.id)}
-              ></Button>
-            </>
-          )}
-        </div>
-      ),
+      title: "finalScoreRatio",
+      dataIndex: "finalScoreRatio",
+      key: "finalScoreRatio",
+      render: (r) => {
+        return `${r}%`;
+      },
     },
   ];
-
-  const breadItem = [
-    {
-      name: "Major",
-      path: "/major",
-    },
-  ];
-
-  const handleDelete = async (id) => {
-    try {
-      await majorActions.deleteMajor(id);
-      toast.success("Delete success");
-      handleTableChange(data.paging, watch("search"), {});
-    } catch (error) {}
-  };
 
   const onSubmit = (e) => {
     handleTableChange(data.paging, e.search, {});
@@ -117,11 +85,21 @@ export default function Major({ history }) {
     reset();
     handleTableChange(data.paging, "", {});
   };
-
+  let rowSelection = {
+    selections: true,
+    onChange: (selectedRowKeys, selectedRows) => {
+      props.handleSetSelectedSubject(selectedRows);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: false,
+      // Column configuration not to be checked
+      name: record.id,
+      // defaultChecked: record.subjectId === 3,
+    }),
+  };
   return (
     <div className="class-page">
-      <Breadcrumbs items={breadItem} />
-      <div className="shadow-md bg-white rounded-lg p-4">
+      <div className=" p-4 pt-2">
         <div className="flex justify-between">
           <form name="basic" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex gap-3">
@@ -146,23 +124,42 @@ export default function Major({ history }) {
               </Button>
             </div>
           </form>
-          {getRole() == userRole.ADMIN && (
-            <Button type="primary">
-              <Link to="/major/add">Add</Link>
-            </Button>
-          )}
         </div>
-        <Table
-          columns={columns}
-          rowKey="key"
-          dataSource={data.dataSource}
-          onChange={handleTableChange}
-          pagination={{
-            current: data.paging.current,
-            total: data.paging.total,
-            pageSize: data.paging.pageSize,
-          }}
-        />
+        {!id ? (
+          <Table
+            columns={columns}
+            dataSource={data.dataSource}
+            onChange={handleTableChange}
+            rowSelection={{
+              type: "radio",
+              ...rowSelection,
+            }}
+            rowKey={(record) => record.id}
+            pagination={{
+              current: data.paging.current,
+              total: data.paging.total,
+              pageSize: data.paging.pageSize,
+            }}
+          />
+        ) : props.selectedSubject ? (
+          <Table
+            columns={columns}
+            dataSource={data.dataSource}
+            onChange={handleTableChange}
+            rowSelection={{
+              type: "radio",
+              ...rowSelection,
+            }}
+            rowKey={(record) => record.id}
+            pagination={{
+              current: data.paging.current,
+              total: data.paging.total,
+              pageSize: data.paging.pageSize,
+            }}
+          />
+        ) : (
+          "loading"
+        )}
       </div>
     </div>
   );
