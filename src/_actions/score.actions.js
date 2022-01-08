@@ -14,7 +14,7 @@ function useScoreActions() {
     postScore,
   };
 
-  async function getScore(offset, limit, params = false, search) {
+  async function getScore(offset, limit, params = false, search, id) {
     return await fetchWrapper.get(
       baseUrl +
         "?PageNumber=" +
@@ -24,7 +24,8 @@ function useScoreActions() {
         (params && params.order
           ? "&order=" + JSON.stringify(params.order)
           : "") +
-        (search && Object.keys(search).length !== 0 ? "&kw=" + search : "")
+        (search && Object.keys(search).length !== 0 ? "&kw=" + search : "") +
+        (id != null ? `&studentId=${id}` : "")
     );
   }
 
@@ -32,15 +33,19 @@ function useScoreActions() {
     return await fetchWrapper.delete(`${baseUrl}/${id}/${subjectId}`);
   }
 
-  async function getScoreDetail(id) {
-    return await fetchWrapper.get(`${baseUrl}/${id}`);
+  async function getScoreDetail(studenId, subjectId) {
+    return await fetchWrapper.get(`${baseUrl}/${studenId}/${subjectId}`);
   }
 
   async function postScore(body) {
     return await fetchWrapper.post(`${baseUrl}`, body);
   }
 
-  async function updateScore(id, body) {
-    return await fetchWrapper.patch(`${baseUrl}/${id}`, body);
+  async function updateScore(body, studenId, subjectId) {
+    return await fetchWrapper.patch(`${baseUrl}/${studenId}/${subjectId}`, {
+      ...body,
+      studentId: parseInt(studenId),
+      subjectId: parseInt(subjectId),
+    });
   }
 }

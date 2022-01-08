@@ -1,5 +1,5 @@
 import { Button, Input, InputNumber, Spin } from "antd";
-import { useMajorActions } from "@iso/actions";
+import { useScoreActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
@@ -11,18 +11,20 @@ import { useEffect } from "react/cjs/react.development";
 import { useState } from "react";
 
 export default function Detail() {
-  const majorActions = useMajorActions();
+  const scoreActions = useScoreActions();
   const [data, setData] = useState();
-  let { id } = useParams();
+  let { studentID, subjectID } = useParams();
 
   useEffect(() => {
-    id && getData();
+    if (studentID && subjectID) {
+      getData();
+    }
   }, []);
 
   // get Data
   const getData = async () => {
     try {
-      const res = await majorActions.getMajorDetail(id);
+      const res = await scoreActions.getScoreDetail(studentID, subjectID);
       setData(res);
     } catch (error) {
       toast.error("Something went wrong!!!");
@@ -31,11 +33,11 @@ export default function Detail() {
 
   const breadItem = [
     {
-      name: "Major",
-      path: "/major",
+      name: "Score",
+      path: "/score",
     },
     {
-      name: "Detail",
+      name: "Score",
       path: "",
     },
   ];
@@ -47,16 +49,16 @@ export default function Detail() {
         {data ? (
           <div className="w-5/12">
             <div className="flex mb-3">
-              <label className="w-3/12">Name:</label>
-              <span>{data?.name}</span>
+              <label className="w-3/12">Subject:</label>
+              <span>{data?.subject?.name}</span>
             </div>
             <div className="flex mb-3">
-              <label className="w-3/12">Start Date:</label>
-              <span>{data?.startDate}</span>
+              <label className="w-3/12">Mid score:</label>
+              <span>{data?.midScore}</span>
             </div>
             <div className="flex mb-3">
-              <label className="w-3/12">Finish Date:</label>
-              <span>{data?.finishDate}</span>
+              <label className="w-3/12">Final score:</label>
+              <span>{data?.finalScore}</span>
             </div>
           </div>
         ) : (

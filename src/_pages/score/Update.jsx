@@ -12,16 +12,12 @@ import { ControlFilled } from "@ant-design/icons";
 import Student from "./Student";
 import Subject from "./Subject";
 
-export default function Add() {
+export default function Update() {
   const scoreActions = useScoreActions();
-  const [selectedItem, setSelectedItem] = useState();
-  const [selectedSubject, setSelectedSubject] = useState();
-  let { id } = useParams();
-  const validationSchema = Yup.object().shape({
-    midScore: Yup.string().required("Username is required"),
-    studentId: Yup.string().required("Student id is required"),
-  });
-  const formOptions = { resolver: yupResolver(validationSchema) };
+  let { studentID, subjectID } = useParams();
+  const [data, setData] = useState();
+
+  const formOptions = {};
   const { handleSubmit, formState, control, setValue, watch } =
     useForm(formOptions);
   const { errors, isSubmitting } = formState;
@@ -29,9 +25,27 @@ export default function Add() {
   // submit form
   const onSubmit = async (e) => {
     try {
-      const res = await scoreActions.postScore(e);
+      const res = await scoreActions.updateScore(e, studentID, subjectID);
       console.log(res);
       toast.success("success!!!");
+    } catch (error) {
+      toast.error("Something when wrong!!!");
+    }
+  };
+
+  useEffect(() => {
+    if (studentID && subjectID) {
+      getData();
+    }
+  }, []);
+
+  // get Data
+  const getData = async () => {
+    try {
+      const res = await scoreActions.getScoreDetail(studentID, subjectID);
+      setValue("midScore", parseInt(res?.midScore));
+      setValue("finalScore", parseInt(res?.finalScore));
+      setData(res);
     } catch (error) {
       toast.error("Something when wrong!!!");
     }
@@ -43,24 +57,31 @@ export default function Add() {
       path: "/score",
     },
     {
-      name: id ? "Update score" : "Add score",
+      name: "Update score",
       path: "",
     },
   ];
-
-  const handleSetSelectedItem = (e) => {
-    e && setValue("studentId", e[0].studentId);
-  };
-
-  const handleSetSelectedSubject = (e) => {
-    e && setValue("subjectId", e[0].id);
-  };
 
   return (
     <div className="class-page">
       <Breadcrumbs items={breadItem} />
       <div className="shadow-md bg-white rounded-lg p-4">
-        <div className="flex gap-7">
+        {data ? (
+          <div className="w-5/12">
+            <div className="flex mb-3">
+              <label className="w-3/12">StudentID:</label>
+              <span>{data?.student?.studentId}</span>
+            </div>
+            <div className="flex mb-3">
+              <label className="w-3/12">Subject:</label>
+              <span>{data?.subject?.name}</span>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+        <hr />
+        <div className="flex gap-7 mt-4">
           <div className="w-4/12">
             <form
               name="basic"
@@ -121,18 +142,6 @@ export default function Add() {
                 </Button>
               </div>
             </form>
-          </div>
-          <div className="w-8/12">
-            <div className="err-input pl-4">{errors.studentId?.message}</div>
-            <Student
-              handleSetSelectedItem={handleSetSelectedItem}
-              selectedItem={selectedItem ? [selectedItem] : []}
-            />
-            {/* <div className="err-input pl-4">{errors.teacherId?.message}</div> */}
-            <Subject
-              handleSetSelectedSubject={handleSetSelectedSubject}
-              selectedItem={selectedSubject ? [selectedSubject] : []}
-            />
           </div>
         </div>
       </div>

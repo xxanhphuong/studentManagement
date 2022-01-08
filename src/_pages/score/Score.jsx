@@ -37,7 +37,16 @@ export default function Score({ history }) {
     );
   };
   const getData = async (offset, limit, params = false, filters) => {
-    const resp = await scoreActions.getScore(offset, limit, params, filters);
+    const idStudent = JSON.parse(localStorage.getItem("user"))?.id;
+    console.log(idStudent);
+
+    const resp = await scoreActions.getScore(
+      offset,
+      limit,
+      params,
+      filters,
+      getRole() === userRole.STUDENT ? idStudent : null
+    );
     if (resp) {
       // get result
       setData({
@@ -112,12 +121,18 @@ export default function Score({ history }) {
       render: (record) => (
         <div className="flex gap-3">
           <Button type="primary">
-            <Link to={`/student/detail/${record.studentId}`}>View</Link>
+            <Link to={`/student/detail/${record.student?.studentId}`}>
+              View
+            </Link>
           </Button>
           {getRole() == userRole.ADMIN || getRole() == userRole.TEACHER ? (
             <>
               <Button type="primary">
-                <Link to={`/student/update/${record.studentId}`}>Update</Link>
+                <Link
+                  to={`/score/update/${record.student?.studentId}/${record.subject?.id}`}
+                >
+                  Update
+                </Link>
               </Button>
               <Button
                 type="primary"
@@ -138,8 +153,8 @@ export default function Score({ history }) {
 
   const breadItem = [
     {
-      name: "Student",
-      path: "/student",
+      name: "Score",
+      path: "/score",
     },
   ];
 
