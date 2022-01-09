@@ -32,6 +32,7 @@ export default function Add() {
   const [visible, setVisible] = useState(false);
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
+    username: Yup.string().required("Username is required"),
     fullName: Yup.string().required("Quantity is required"),
     gender: Yup.string().required("Gender is required"),
     address: Yup.string().required("Address is required"),
@@ -96,7 +97,9 @@ export default function Add() {
                     className={`form-control ${
                       errors.username ? "is-invalid" : ""
                     }`}
-                    onChange={onChange}
+                    onChange={(e) =>
+                      onChange(e.target.value.replace(/\s/g, ""))
+                    }
                     value={value}
                   />
                 )}

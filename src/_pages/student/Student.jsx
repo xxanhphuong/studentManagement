@@ -102,9 +102,6 @@ export default function Student({ history }) {
           <Button type="primary">
             <Link to={`/student/detail/${record.studentId}`}>View</Link>
           </Button>
-          <Button type="primary">
-            <Link to={`/student/update/${record.studentId}`}>Update</Link>
-          </Button>
           <Button
             type="primary"
             icon={<DeleteOutlined />}

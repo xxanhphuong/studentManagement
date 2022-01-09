@@ -9,6 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { getRole } from "@iso/helpers/";
 import { userRole } from "@iso/helpers/contant";
+import moment from "moment";
 
 export default function Major({ history }) {
   const majorActions = useMajorActions();
@@ -62,11 +63,17 @@ export default function Major({ history }) {
       title: "Start Date",
       dataIndex: "startDate",
       key: "startDate",
+      render: (b) => {
+        return moment(b).format("DD/MM/yyyy");
+      },
     },
     {
       title: "Finish Date",
       dataIndex: "finishDate",
       key: "finishDate",
+      render: (b) => {
+        return moment(b).format("DD/MM/yyyy");
+      },
     },
     {
       align: "center",

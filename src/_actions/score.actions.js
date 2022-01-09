@@ -24,7 +24,9 @@ function useScoreActions() {
         (params && params.order
           ? "&order=" + JSON.stringify(params.order)
           : "") +
-        (search && Object.keys(search).length !== 0 ? "&kw=" + search : "") +
+        (search && Object.keys(search).length !== 0
+          ? "&studentId=" + search
+          : "") +
         (id != null ? `&studentId=${id}` : "")
     );
   }

@@ -1,5 +1,5 @@
 import { Button, Input, InputNumber } from "antd";
-import { useClassActions } from "@iso/actions";
+import { useTeacherActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
@@ -11,11 +11,10 @@ import { useEffect } from "react/cjs/react.development";
 import { ControlFilled } from "@ant-design/icons";
 
 export default function Add() {
-  const classActions = useClassActions();
+  const teacherActions = useTeacherActions();
   let { id } = useParams();
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Username is required"),
-    quantity: Yup.string().required("Quantity is required"),
+    salary: Yup.string().required("Quantity is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { handleSubmit, formState, control, setValue, watch } =
@@ -29,9 +28,8 @@ export default function Add() {
   // get Data
   const getData = async () => {
     try {
-      const { name, quantity } = await classActions.getClassesDetail(id);
-      setValue("name", name);
-      setValue("quantity", parseInt(quantity));
+      const { salary } = await teacherActions.getTeacherDetail(id);
+      setValue("salary", parseInt(salary));
     } catch (error) {
       toast.error("Something when wrong!!!");
     }
@@ -47,9 +45,8 @@ export default function Add() {
           id: id,
           ...e,
         };
-        res = await classActions.updateClasses(id, body);
+        res = await teacherActions.updateTeacher(id, body);
       } else {
-        res = await classActions.postClasses(e);
       }
       toast.success(id ? "Update class success!!!" : "Create class success!!!");
     } catch (error) {
@@ -59,11 +56,11 @@ export default function Add() {
 
   const breadItem = [
     {
-      name: "Classes",
-      path: "/class",
+      name: "Teacher",
+      path: "/teacher",
     },
     {
-      name: id ? "Update class" : "Add class",
+      name: id ? "Update teacher" : "Add teacher",
       path: "",
     },
   ];
@@ -79,30 +76,14 @@ export default function Add() {
             className="w-4/12"
           >
             <div className="grid gap-3 grid-cols-1">
-              <Form.Item name="name" label="Name class" className="mb-0">
+              <Form.Item name="name" label="Salary" className="mb-0">
                 <Controller
-                  name="name"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    <Input
-                      className={`form-control ${
-                        errors.name ? "is-invalid" : ""
-                      }`}
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
-                <div className="err-input">{errors.name?.message}</div>
-              </Form.Item>
-              <Form.Item name="name" label="Quantity" className="mb-0">
-                <Controller
-                  name="quantity"
+                  name="salary"
                   control={control}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <InputNumber
                       className={`form-control ${
-                        errors.quantity ? "is-invalid" : ""
+                        errors.salary ? "is-invalid" : ""
                       }`}
                       min={1}
                       value={value}

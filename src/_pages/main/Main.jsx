@@ -10,7 +10,7 @@ import {
 import logo from "@iso/assets/img/logo.png";
 import { Nav } from "@iso/components/Nav";
 import MainRoutes from "./MainRoutes";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Add from "../user/Add";
 import { getRole } from "@iso/helpers/";
 import { userRole } from "@iso/helpers/contant";
@@ -20,10 +20,13 @@ const { SubMenu } = Menu;
 
 export function Main() {
   const [collapsed, setCollapsed] = useState(false);
+  let location = useLocation();
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
   };
+
+  console.log("location", location.pathname.split("/")[1]);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -43,28 +46,32 @@ export function Main() {
             style={{ width: "90%" }}
           />
         </div>
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={[location.pathname.split("/")[1]]}
+          mode="inline"
+        >
+          <Menu.Item key="class" icon={<PieChartOutlined />}>
             <NavLink to="/class">Class</NavLink>
           </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
+          <Menu.Item key="subject" icon={<UserOutlined />}>
             <NavLink to="/subject">Subject</NavLink>
           </Menu.Item>
-          <Menu.Item key="3" icon={<DesktopOutlined />}>
+          <Menu.Item key="score" icon={<DesktopOutlined />}>
             <NavLink to="/score">Score</NavLink>
           </Menu.Item>
-          <Menu.Item key="4" icon={<DesktopOutlined />}>
+          <Menu.Item key="major" icon={<DesktopOutlined />}>
             <NavLink to="/major">Major</NavLink>
           </Menu.Item>
           {getRole() == userRole?.ADMIN && (
             <SubMenu key="sub2" icon={<TeamOutlined />} title="User">
-              <Menu.Item key="5">
+              <Menu.Item key="teacher">
                 <NavLink to="/teacher">Teacher</NavLink>
               </Menu.Item>
-              <Menu.Item key="6">
+              <Menu.Item key="studen">
                 <NavLink to="/student">Student</NavLink>
               </Menu.Item>
-              <Menu.Item key="7">
+              <Menu.Item key="user">
                 <NavLink to="/user">User</NavLink>
               </Menu.Item>
             </SubMenu>

@@ -8,6 +8,8 @@ import { Form } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import moment from "moment";
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
 export default function Teacher() {
   const teacherActions = useTeacherActions();
   const { handleSubmit, control, reset, watch } = useForm();
@@ -88,9 +90,19 @@ export default function Teacher() {
       },
     },
     {
+      title: "Address",
+      dataIndex: ["user", "address"],
+      key: "address",
+    },
+    {
       title: "Role",
       dataIndex: ["user", "role"],
       key: "role",
+    },
+    {
+      title: "Salary",
+      dataIndex: "salary",
+      key: "salary",
     },
 
     {
@@ -99,17 +111,25 @@ export default function Teacher() {
       render: (record) => (
         <div className="flex gap-3">
           <Button type="primary">
-            <Link to={`/student/detail/${record.studentId}`}>View</Link>
+            <Link to={`/teacher/detail/${record.teacherId}`}>View</Link>
           </Button>
-          <Button type="primary">
-            <Link to={`/student/update/${record.studentId}`}>Update</Link>
-          </Button>
-          <Button
-            type="primary"
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => handleDelete(record.studentId)}
-          ></Button>
+          {getRole() == userRole.ADMIN ? (
+            <Button type="primary">
+              <Link to={`/teacher/update/${record.teacherId}`}>Update</Link>
+            </Button>
+          ) : (
+            ""
+          )}
+          {getRole() == userRole.ADMIN ? (
+            <Button
+              type="primary"
+              icon={<DeleteOutlined />}
+              danger
+              onClick={() => handleDelete(record.teacherId)}
+            ></Button>
+          ) : (
+            ""
+          )}
         </div>
       ),
     },
@@ -167,9 +187,6 @@ export default function Teacher() {
               </Button>
             </div>
           </form>
-          <Button type="primary">
-            <Link to="/class/add">Add</Link>
-          </Button>
         </div>
         <Table
           columns={columns}

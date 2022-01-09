@@ -36,6 +36,9 @@ function useTeacherActions() {
   }
 
   async function updateTeacher(id, body) {
-    return await fetchWrapper.patch(`${baseUrl}/${id}`, body);
+    return await fetchWrapper.patch(`${baseUrl}/${id}`, {
+      teacherId: id,
+      salary: body?.salary,
+    });
   }
 }
