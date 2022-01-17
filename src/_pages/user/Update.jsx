@@ -54,7 +54,6 @@ export default function Update() {
 
   // submit form
   const onSubmit = async (e) => {
-    e.majorId = 2;
     e.dateOfBirth = moment(e.dateOfBirth).format("yyyy/MM/DD");
     try {
       if (id) {

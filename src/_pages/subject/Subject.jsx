@@ -164,9 +164,11 @@ export default function Subject() {
               </Button>
             </div>
           </form>
-          <Button type="primary">
-            <Link to="/subject/add">Add</Link>
-          </Button>
+          {getRole() == userRole.ADMIN && (
+            <Button type="primary">
+              <Link to="/subject/add">Add</Link>
+            </Button>
+          )}
         </div>
         <Table
           columns={columns}
