@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Input, Tag } from "antd";
-import { useTeacherActions } from "@iso/actions";
+import { useMajorActions } from "@iso/actions";
 import Breadcrumbs from "@iso/components/Breadcrumbs";
 import { Link } from "react-router-dom";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -9,9 +9,11 @@ import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-export default function Teacher(props) {
+import { getRole } from "@iso/helpers/";
+import { userRole } from "@iso/helpers/contant";
+export default function Major(props) {
   let { id } = useParams();
-  const teacherActions = useTeacherActions();
+  const majorActions = useMajorActions();
   const { handleSubmit, control, reset, watch } = useForm();
   const [data, setData] = useState({
     dataSource: [],
@@ -37,12 +39,7 @@ export default function Teacher(props) {
     );
   };
   const getData = async (offset, limit, params = false, filters) => {
-    const resp = await teacherActions.getTeacher(
-      offset,
-      limit,
-      params,
-      filters
-    );
+    const resp = await majorActions.getMajor(offset, limit, params, filters);
     if (resp) {
       // get result
       setData({
@@ -60,44 +57,29 @@ export default function Teacher(props) {
   const columns = [
     {
       title: "ID",
-      dataIndex: "teacherId",
-      key: "teacherId",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: "Full Name",
-      dataIndex: ["user", "fullName"],
-      key: "fullname",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "Username",
-      dataIndex: ["user", "username"],
-      key: "username",
-    },
-    {
-      title: "Gender",
-      dataIndex: ["user", "gender"],
-      key: "gender",
-      render: (gender) => {
-        let color = "green";
-        if (gender === "Nam") {
-          color = "volcano";
-        }
-
-        return <Tag color={color}>{gender}</Tag>;
-      },
-    },
-    {
-      title: "Date Of Birth",
-      dataIndex: ["user", "dateOfBirth"],
-      key: "gender",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
       render: (b) => {
         return moment(b).format("DD/MM/yyyy");
       },
     },
     {
-      title: "Role",
-      dataIndex: ["user", "role"],
-      key: "role",
+      title: "Finish Date",
+      dataIndex: "finishDate",
+      key: "finishDate",
+      render: (b) => {
+        return moment(b).format("DD/MM/yyyy");
+      },
     },
   ];
 
@@ -114,13 +96,15 @@ export default function Teacher(props) {
     onChange: (selectedRowKeys, selectedRows) => {
       props.handleSetSelectedItem(selectedRows);
     },
-    getCheckboxProps: (record) => ({
-      // Column configuration not to be checked
-      name: record.teacherId,
-      disabled:
-        props?.selectedItem.findIndex((e) => e == record.teacherId) > -1,
-      defaultChecked: record.teacherId === 3,
-    }),
+    getCheckboxProps: (record) => {
+      console.log(record, props.selectedItem, "alksndlaksnd");
+      return {
+        // Column configuration not to be checked
+        name: record.id,
+        disabled: props.selectedItem?.findIndex((e) => e == record.id) > -1,
+        defaultChecked: true,
+      };
+    },
   };
   return (
     <div className="class-page">
@@ -159,7 +143,7 @@ export default function Teacher(props) {
               type: "radio",
               ...rowSelection,
             }}
-            rowKey={(record) => record.teacherId}
+            rowKey={(record) => record.id}
             pagination={{
               current: data.paging.current,
               total: data.paging.total,
@@ -175,7 +159,7 @@ export default function Teacher(props) {
               type: "radio",
               ...rowSelection,
             }}
-            rowKey={(record) => record.teacherId}
+            rowKey={(record) => record.id}
             pagination={{
               current: data.paging.current,
               total: data.paging.total,
