@@ -30,7 +30,7 @@ module.exports = function (config, env) {
         javascriptEnabled: true,
         modifyVars: { "@primary-color": "#3444d2", "@button-color": "#757575" },
       }),
-      addPostcssPlugins([require("tailwindcss")]),
+      addPostcssPlugins([require("tailwindcss"), require("autoprefixer")]),
       addWebpackAlias({
         "@iso/assets": path.resolve(__dirname, "src/_assets"),
         "@iso/components": path.resolve(__dirname, "src/_components"),

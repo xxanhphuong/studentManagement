@@ -131,7 +131,12 @@ export default function Add() {
                         render={({
                           field: { onChange, onBlur, value, ref },
                         }) => {
-                          return <DatePicker onChange={onChange} />;
+                          return (
+                            <DatePicker
+                              onChange={onChange}
+                              value={watch("startDate")}
+                            />
+                          );
                         }}
                       />
                     )}
@@ -141,7 +146,12 @@ export default function Add() {
                     name="startDate"
                     control={control}
                     render={({ field: { onChange, onBlur, value, ref } }) => {
-                      return <DatePicker onChange={onChange} />;
+                      return (
+                        <DatePicker
+                          onChange={onChange}
+                          value={watch("startDate")}
+                        />
+                      );
                     }}
                   />
                 )}
@@ -173,7 +183,12 @@ export default function Add() {
                         render={({
                           field: { onChange, onBlur, value, ref },
                         }) => {
-                          return <DatePicker onChange={onChange} />;
+                          return (
+                            <DatePicker
+                              onChange={onChange}
+                              value={watch("finishDate")}
+                            />
+                          );
                         }}
                       />
                     )}
@@ -183,7 +198,12 @@ export default function Add() {
                     name="finishDate"
                     control={control}
                     render={({ field: { onChange, onBlur, value, ref } }) => {
-                      return <DatePicker onChange={onChange} />;
+                      return (
+                        <DatePicker
+                          onChange={onChange}
+                          value={watch("finishDate")}
+                        />
+                      );
                     }}
                   />
                 )}

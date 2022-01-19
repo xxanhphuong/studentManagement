@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
-  DesktopOutlined,
+  TrophyOutlined,
   PieChartOutlined,
-  FileOutlined,
+  ReadOutlined,
   TeamOutlined,
-  UserOutlined,
+  BookOutlined,
 } from "@ant-design/icons";
 import logo from "@iso/assets/img/logo.png";
 import { Nav } from "@iso/components/Nav";
@@ -54,13 +54,13 @@ export function Main() {
           <Menu.Item key="class" icon={<PieChartOutlined />}>
             <NavLink to="/class">Class</NavLink>
           </Menu.Item>
-          <Menu.Item key="subject" icon={<UserOutlined />}>
+          <Menu.Item key="subject" icon={<BookOutlined />}>
             <NavLink to="/subject">Subject</NavLink>
           </Menu.Item>
-          <Menu.Item key="score" icon={<DesktopOutlined />}>
+          <Menu.Item key="score" icon={<ReadOutlined />}>
             <NavLink to="/score">Score</NavLink>
           </Menu.Item>
-          <Menu.Item key="major" icon={<DesktopOutlined />}>
+          <Menu.Item key="major" icon={<TrophyOutlined />}>
             <NavLink to="/major">Major</NavLink>
           </Menu.Item>
           {getRole() == userRole?.ADMIN && (
